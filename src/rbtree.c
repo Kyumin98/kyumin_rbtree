@@ -6,7 +6,7 @@ rbtree *new_rbtree(void) {
     rbtree *tree = (rbtree *)calloc(1, sizeof(rbtree));
     tree->nil = (node_t *)calloc(1, sizeof(node_t));
     tree->nil->color = RBTREE_BLACK;
-    tree->root = tree->nil
+    tree->root = tree->nil;
     return tree;
 }
 
@@ -60,54 +60,54 @@ void rbtree_insert_fixup(rbtree *t, node_t *new_node){
     node_t *swap;
     while(new_node->parent->color == RBTREE_RED){
         if(new_node->parent == new_node->parent->parent->left){
-            direction_1 = "left"
-            direction_2 = "right"
+            direction_1 = "left";
+            direction_2 = "right";
         }else{
-            direction_1 = "right"
-            direction_2 = "left"
+            direction_1 = "right";
+            direction_2 = "left";
         }
         swap = new_node->parent->parent->right;
         if(swap->color == RBTREE_RED){
             new_node->parent->color = RBTREE_BLACK;
             swap->color = RBTREE_BLACK;
             new_node->parent->parent->color = RBTREE_RED;
-            new_node = new_node->parent->parent
+            new_node = new_node->parent->parent;
         }else if(new_node == new_node->parent->right){
-            new_node = new_node->parent
-            rotate(t, new_node, direction_1)
+            new_node = new_node->parent;
+            rotate(t, new_node, direction_1);
         }
         new_node->parent->color = RBTREE_BLACK;
         new_node->parent->parent = RBTREE_RED;
-        rotate(t, new_node, direction_2)
+        rotate(t, new_node, direction_2);
     }
     t->root->color = RBTREE_BLACK
 }
 
 node_t *rbtree_insert(rbtree *t, const key_t key) {
     node_t *new_node = malloc(sizeof(node_t));
-    node_t *root = t->root
-    node_t *nil = t->nil
-    new_node->key = key
+    node_t *root = t->root;
+    node_t *nil = t->nil;
+    new_node->key = key;
     while(root != t->nil){
-        nil = root
+        nil = root;
         if(new_node->key < nil->key){
-            root = root->left
+            root = root->left;
         }else {
-            root = root->right
+            root = root->right;
         }
     }
-    new_node->parent = nil
+    new_node->parent = nil;
     if(nil == t->nil){
-        t->root = new_node
+        t->root = new_node;
     }else if(new_node->key < nil->key){
-        nil->left = new_node
+        nil->left = new_node;
     }else{
-        nil->right = new_node
+        nil->right = new_node;
     }
-    new_node->left = t->nil
-    new_node->right = t->nil
-    new_node->color = RBTREE_RED
-    rbtree_insert_fixup(t, new_node)
+    new_node->left = t->nil;
+    new_node->right = t->nil;
+    new_node->color = RBTREE_RED;
+    rbtree_insert_fixup(t, new_node);
 }
 
 node_t *rbtree_find(const rbtree *t, const key_t key) {
