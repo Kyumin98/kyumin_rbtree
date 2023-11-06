@@ -1,6 +1,7 @@
 #include "rbtree.h"
-
+#include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 rbtree *new_rbtree(void) {
     rbtree *tree = (rbtree *)calloc(1, sizeof(rbtree));
@@ -10,10 +11,10 @@ rbtree *new_rbtree(void) {
     return tree;
 }
 
-void rotate(rbtree *t, node_t *target, char direction) {
+void rotate(rbtree *t, node_t *target, bool direction) {
     node_t **child_1, **child_2;
 
-    if (direction == 'left') {
+    if (direction) {
         child_1 = &target->right;
         child_2 = &target->left;
     } else {
@@ -23,7 +24,7 @@ void rotate(rbtree *t, node_t *target, char direction) {
 
     node_t *swap = *child_1;
     *child_1 = *child_2;
-    if (*child_2 != swap->nil) {
+    if (*child_2 != t->nil) {
         (*child_2)->parent = target;
     }
     swap->parent = target->parent;
@@ -60,11 +61,9 @@ void rbtree_insert_fixup(rbtree *t, node_t *new_node){
     node_t *swap;
     while(new_node->parent->color == RBTREE_RED){
         if(new_node->parent == new_node->parent->parent->left){
-            direction_1 = "left";
-            direction_2 = "right";
+            bool direction_1, direction_2 = true, false;
         }else{
-            direction_1 = "right";
-            direction_2 = "left";
+            bool direction_1, direction_2 = false, true;
         }
         swap = new_node->parent->parent->right;
         if(swap->color == RBTREE_RED){
@@ -80,7 +79,7 @@ void rbtree_insert_fixup(rbtree *t, node_t *new_node){
         new_node->parent->parent = RBTREE_RED;
         rotate(t, new_node, direction_2);
     }
-    t->root->color = RBTREE_BLACK
+    t->root->color = RBTREE_BLACK;
 }
 
 node_t *rbtree_insert(rbtree *t, const key_t key) {
