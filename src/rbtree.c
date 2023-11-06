@@ -59,11 +59,13 @@ void delete_rbtree(rbtree *t) {
 
 void rbtree_insert_fixup(rbtree *t, node_t *new_node){
     node_t *swap;
+    bool direction_1, direction_2;
+
     while(new_node->parent->color == RBTREE_RED){
         if(new_node->parent == new_node->parent->parent->left){
-            bool direction_1 = true, direction_2 = false;
+            direction_1 = true, direction_2 = false;
         }else{
-            bool direction_1 = false, direction_2 = true;
+            direction_1 = false, direction_2 = true;
         }
         swap = new_node->parent->parent->right;
         if(swap->color == RBTREE_RED){
@@ -134,9 +136,4 @@ int rbtree_erase(rbtree *t, node_t *p) {
 int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
   // TODO: implement to_array
   return 0;
-}
-
-
-int main(){
-
 }
