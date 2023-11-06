@@ -61,9 +61,9 @@ void rbtree_insert_fixup(rbtree *t, node_t *new_node){
     node_t *swap;
     while(new_node->parent->color == RBTREE_RED){
         if(new_node->parent == new_node->parent->parent->left){
-            bool direction_1, direction_2 = true, false;
+            bool direction_1 = true, direction_2 = false;
         }else{
-            bool direction_1, direction_2 = false, true;
+            bool direction_1 = false, direction_2 = true;
         }
         swap = new_node->parent->parent->right;
         if(swap->color == RBTREE_RED){
@@ -107,6 +107,8 @@ node_t *rbtree_insert(rbtree *t, const key_t key) {
     new_node->right = t->nil;
     new_node->color = RBTREE_RED;
     rbtree_insert_fixup(t, new_node);
+
+    return t->root;
 }
 
 node_t *rbtree_find(const rbtree *t, const key_t key) {
